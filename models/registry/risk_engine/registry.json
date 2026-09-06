@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "model_id": "MODEL_D22D5022375B489DB3C9CE1D4EE536F6",
+      "model_type": "risk_engine",
+      "model_name": "VoiceGuard Risk Engine",
+      "model_version": "phase5-v1",
+      "created_at": "2026-09-04T17:47:59.614731+00:00",
+      "artifact_path": "F:\\hackthon\\voiceguard-ai\\configs\\risk_engine.yaml",
+      "file_hash": "113a8a41777657cb1e1ef4a295a17ae041b69032795cf5c11249f4cd09ca0c03",
+      "status": "RETIRED",
+      "weights": {
+        "synthetic_voice": {
+          "enabled": true,
+          "weight": 0.45
+        },
+        "speaker_mismatch": {
+          "enabled": true,
+          "weight": 0.3
+        },
+        "contextual": {
+          "enabled": true,
+          "weight": 0.25
+        }
+      },
+      "thresholds": {
+        "low_max": 29,
+        "medium_max": 59,
+        "high_max": 79,
+        "critical_min": 80
+      },
+      "rules": {
+        "synthetic_high_threshold": 0.8,
+        "clone_similarity_threshold": 0.75,
+        "clone_attack_bonus": 25,
+        "speaker_mismatch_bonus": 15
+      },
+      "config_hash": "113a8a41777657cb1e1ef4a295a17ae041b69032795cf5c11249f4cd09ca0c03"
+    },
+    {
+      "model_id": "MODEL_2F4674697E1749E294DC30DEB1D046D0",
+      "model_type": "risk_engine",
+      "model_name": "VoiceGuard Risk Engine",
+      "model_version": "phase5-v2",
+      "created_at": "2026-09-06T09:49:29.514962+00:00",
+      "artifact_path": "F:\\hackthon\\voiceguard-ai\\configs\\risk_engine.yaml",
+      "file_hash": "79e90b60aaf4856c86316bd771b291e607ae4d727d75094e0b7cb1552ea3596d",
+      "status": "ACTIVE",
+      "weights": {
+        "synthetic_voice": {
+          "enabled": true,
+          "weight": 0.45
+        },
+        "speaker_mismatch": {
+          "enabled": true,
+          "weight": 0.3
+        },
+        "contextual": {
+          "enabled": true,
+          "weight": 0.25
+        },
+        "threat_intelligence": {
+          "enabled": false,
+          "weight": 0.0
+        }
+      },
+      "thresholds": {
+        "low_max": 29,
+        "medium_max": 59,
+        "high_max": 79,
+        "critical_min": 80
+      },
+      "rules": {
+        "synthetic_high_threshold": 0.8,
+        "clone_similarity_threshold": 0.75,
+        "clone_attack_bonus": 25,
+        "speaker_mismatch_bonus": 15
+      },
+      "config_hash": "79e90b60aaf4856c86316bd771b291e607ae4d727d75094e0b7cb1552ea3596d"
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-09-04T17:47:59.614731+00:00",
+      "action": "REGISTER",
+      "model_id": "MODEL_D22D5022375B489DB3C9CE1D4EE536F6"
+    },
+    {
+      "at": "2026-09-06T09:00:01.524890+00:00",
+      "action": "PROMOTE",
+      "model_id": "MODEL_D22D5022375B489DB3C9CE1D4EE536F6",
+      "status": "STAGING",
+      "checks": {
+        "tests_pass": true,
+        "metrics_available": true,
+        "config_valid": true,
+        "model_loads": true,
+        "latency_acceptable": true,
+        "no_leakage_warning": true,
+        "artifact_hash": false
+      },
+      "override": false
+    },
+    {
+      "at": "2026-09-06T09:43:57.306976+00:00",
+      "action": "PROMOTE",
+      "model_id": "MODEL_D22D5022375B489DB3C9CE1D4EE536F6",
+      "status": "ACTIVE",
+      "checks": {
+        "technical_validation": true,
+        "known_limitations": true,
+        "security_checks": true,
+        "privacy_checks": true,
+        "governance_approval": true
+      },
+      "override": false
+    },
+    {
+      "at": "2026-09-06T09:49:29.514962+00:00",
+      "action": "REGISTER",
+      "model_id": "MODEL_2F4674697E1749E294DC30DEB1D046D0"
+    },
+    {
+      "at": "2026-09-06T09:52:08.167058+00:00",
+      "action": "PROMOTE",
+      "model_id": "MODEL_2F4674697E1749E294DC30DEB1D046D0",
+      "status": "STAGING",
+      "checks": {
+        "tests_pass": true,
+        "metrics_available": true,
+        "config_valid": true,
+        "model_loads": true,
+        "latency_acceptable": true,
+        "no_leakage_warning": true,
+        "artifact_hash": true
+      },
+      "override": false
+    },
+    {
+      "at": "2026-09-06T09:52:46.586746+00:00",
+      "action": "PROMOTE",
+      "model_id": "MODEL_2F4674697E1749E294DC30DEB1D046D0",
+      "status": "ACTIVE",
+      "checks": {
+        "technical_validation": true,
+        "privacy_checks": true,
+        "governance_approval": true,
+        "known_limitations": true,
+        "security_checks": true
+      },
+      "override": false
+    }
+  ]
+}

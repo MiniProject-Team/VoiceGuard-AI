@@ -1,0 +1,18 @@
+version: evaluation-v1
+paths:
+  predictions: reports/phase3/test_predictions.csv
+  metadata: data/metadata/test.csv
+  speaker_trials: reports/phase4/verification_trials.csv
+  output_dir: reports/phase9
+multilingual:
+  minimum_samples: 10
+  languages: [hindi, indian_english, marathi, tamil, telugu, bengali, gujarati, kannada, malayalam, punjabi]
+robustness:
+  snr_db: [20, 10, 5]
+  conditions: [clean, telephone_bandlimited, noisy, reverberant, low_volume, codec_like, speed_perturbation]
+  sample_limit: 20
+calibration:
+  bins: 10
+thresholds:
+  synthetic: [0.3, 0.5, 0.7, 0.8]
+  risk: [30, 60, 80]

@@ -1,0 +1,23 @@
+version: security-v1
+mode: DEMO_HARDENED_MODE
+debug: false
+audit:
+  enabled: true
+  path: ../voiceguard-runtime/audit.jsonl
+uploads:
+  max_size_mb: 5
+  max_duration_seconds: 10
+  allowed_extensions: [wav, flac]
+limits:
+  max_active_sessions: 25
+  max_session_duration_seconds: 3600
+  max_audio_buffer_seconds: 10
+  max_websocket_connections: 100
+rate_limits:
+  session_creation_per_minute: 60
+  audio_upload_per_minute: 120
+  websocket_connections_per_minute: 60
+  verification_attempts_per_minute: 120
+cors:
+  allow_wildcard: false
+  allowed_origins: ["http://localhost:5173", "http://localhost:3000"]

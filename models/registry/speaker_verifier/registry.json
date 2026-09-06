@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "model_id": "MODEL_26309F77817B4448AD4C53C80AAF6C91",
+      "model_type": "speaker_verifier",
+      "model_name": "SpeechBrain ECAPA-TDNN",
+      "model_version": "v1",
+      "created_at": "2026-09-04T17:47:59.278330+00:00",
+      "artifact_path": "F:\\hackthon\\voiceguard-ai\\models\\speaker_verification\\model_cache",
+      "file_hash": "5d9d7e9b2e04853e0542560daa1a18c86a73901cf472bfa1f2b3f8abb916793b",
+      "status": "ACTIVE",
+      "embedding_dimension": 192,
+      "sample_rate": 16000,
+      "threshold": 0.8962976932525635,
+      "validation_eer": 0.0,
+      "config_hash": "880034f6adfd3c83eb5bb494dde8f24b71b80b63f5aabed064ccd59fdfb745db"
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-09-04T17:47:59.278330+00:00",
+      "action": "REGISTER",
+      "model_id": "MODEL_26309F77817B4448AD4C53C80AAF6C91"
+    },
+    {
+      "at": "2026-09-06T08:58:53.204501+00:00",
+      "action": "PROMOTE",
+      "model_id": "MODEL_26309F77817B4448AD4C53C80AAF6C91",
+      "status": "STAGING",
+      "checks": {
+        "tests_pass": true,
+        "metrics_available": true,
+        "config_valid": true,
+        "model_loads": true,
+        "latency_acceptable": true,
+        "no_leakage_warning": true,
+        "artifact_hash": true
+      },
+      "override": false
+    },
+    {
+      "at": "2026-09-06T09:43:45.822549+00:00",
+      "action": "PROMOTE",
+      "model_id": "MODEL_26309F77817B4448AD4C53C80AAF6C91",
+      "status": "ACTIVE",
+      "checks": {
+        "security_checks": true,
+        "privacy_checks": true,
+        "known_limitations": true,
+        "technical_validation": true,
+        "governance_approval": true
+      },
+      "override": false
+    }
+  ]
+}

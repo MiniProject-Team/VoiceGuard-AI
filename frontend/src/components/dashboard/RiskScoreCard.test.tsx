@@ -1,0 +1,2 @@
+import { render,screen } from '@testing-library/react';import { describe,expect,it } from 'vitest';import { RiskScoreCard } from './RiskScoreCard'
+describe('RiskScoreCard',()=>{it('renders backend score and explicit level',()=>{render(<RiskScoreCard score={81} level="CRITICAL"/>);expect(screen.getByText('81')).toBeInTheDocument();expect(screen.getByText('CRITICAL')).toBeInTheDocument();expect(screen.getByRole('meter')).toHaveAttribute('aria-valuenow','81')})})

@@ -1,0 +1,2 @@
+# Observability
+Aggregate metrics cover sessions, segments, errors, alerts, latency/RTF, score summaries, and risk levels. JSON logs rotate and redact sensitive text. Operational alerts (latency, errors, model availability, drift, capacity) remain distinct from impersonation security alerts. Drift uses KS/PSI with minimum samples. `/api/monitoring/summary` returns aggregates and model versions only.

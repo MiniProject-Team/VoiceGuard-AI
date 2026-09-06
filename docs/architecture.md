@@ -1,0 +1,2 @@
+# Architecture
+Voice input → normalization/buffer/VAD → Phase 3 synthetic likelihood plus Phase 4 speaker similarity → Phase 5 context-aware risk → Phase 6 temporal alerts → Phase 7 FastAPI/WebSocket → Phase 8 dashboard → optional local enterprise simulation. Phase 9 adds privacy, validation, resource bounds, fail-safe policy, and chained audit records. Audio is discarded after in-memory inference.

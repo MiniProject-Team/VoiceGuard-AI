@@ -1,0 +1,2 @@
+# Conceptual production architecture
+Load balancer → authenticated API layer → bounded streaming workers → version-verified model inference → risk engine → durable event system → approved enterprise adapters. This is conceptual, not deployed. Rollout should progress through offline evaluation, shadow, alert-only, step-up verification, then carefully governed policy integration. Horizontal scaling needs shared session state, queueing, model serving, TLS/WSS, RBAC, SIEM, and encrypted storage.

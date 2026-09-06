@@ -1,0 +1,6 @@
+version: monitoring-v1
+latency: {warning_ms: 1500, critical_ms: 3000}
+errors: {warning_rate: 0.05, critical_rate: 0.15}
+drift: {enabled: true, minimum_samples: 100, possible_ks: 0.15, significant_ks: 0.30, possible_psi: 0.10, significant_psi: 0.25}
+capacity: {sessions: [1, 2, 5]}
+logs: {level: INFO, path: ../voiceguard-runtime/voiceguard.jsonl, max_size_mb: 20, backups: 5}

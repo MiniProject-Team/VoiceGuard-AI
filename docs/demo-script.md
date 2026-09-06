@@ -1,0 +1,4 @@
+# 5–7 minute judge demonstration
+**0–1 min:** Explain voice-cloning risks in approvals and banking. **1–2:** Show architecture/readiness and genuine demo-safe audio. **2–3:** Run impostor and synthetic-labelled samples. **3–4:** Explain that a clone may resemble the speaker, so similarity alone is insufficient. **4–5:** Add the ₹10,00,000 privileged-transfer context and show the actual risk/action. **5–6:** Show the local enterprise `SIMULATION MODE`, audit chain, MFA/callback/supervisor controls. **6–7:** State measured limitations and future Indian-language evaluation.
+
+Suggested narration: “A sophisticated clone may still match enrolled speaker characteristics. We therefore do not rely on speaker verification alone. VoiceGuard combines speaker consistency, synthetic-speech indicators, and transaction context to recommend independent verification.”

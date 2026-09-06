@@ -1,0 +1,2 @@
+# MLOps lifecycle
+Data → approved training → held-out evaluation → immutable CANDIDATE → policy-reviewed STAGING → human-approved ACTIVE → monitoring → investigated drift → rollback or improved candidate. Promotion requires tests, metrics, valid config, load/latency/leakage checks, and artifact hashes. Drift never triggers automatic retraining or deployment. Feedback is accepted only from authorized personnel and exports event references/scores/context—not raw audio by default.

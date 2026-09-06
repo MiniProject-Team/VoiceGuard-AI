@@ -1,0 +1,11 @@
+# Pre-demo checklist
+- [ ] Laptop charged
+- [ ] Offline dependencies and models ready
+- [ ] Python/Node environments ready
+- [ ] Backend/frontend start
+- [ ] Readiness/audit checks pass
+- [ ] Demo-safe audio/enrollment ready
+- [ ] Four actual scenarios rehearsed
+- [ ] REST fallback ready
+- [ ] Presentation mode checked
+- [ ] Repository backed up

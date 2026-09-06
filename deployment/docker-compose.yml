@@ -1,0 +1,13 @@
+services:
+  voiceguard-backend:
+    build: {context: .., dockerfile: deployment/Dockerfile.backend}
+    ports: ["8000:8000"]
+    environment: {TRANSFORMERS_OFFLINE: "1", HF_HUB_OFFLINE: "1"}
+    volumes: ["voiceguard-runtime:/voiceguard-runtime"]
+    restart: unless-stopped
+  voiceguard-frontend:
+    build: {context: .., dockerfile: deployment/Dockerfile.frontend}
+    ports: ["5173:80"]
+    depends_on: {voiceguard-backend: {condition: service_healthy}}
+    restart: unless-stopped
+volumes: {voiceguard-runtime: {}}

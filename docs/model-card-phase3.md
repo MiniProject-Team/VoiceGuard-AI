@@ -1,0 +1,2 @@
+# Phase 3 model card
+Purpose: estimate synthetic-speech likelihood for risk assessment. Architecture: debug-sized Wav2Vec2 classifier (`hf-internal-testing/tiny-random-wav2vec2`; configured production base differs). Training data is the repository's very small real/fake demo set. Three-sample test metrics: accuracy .333, F1 0, FNR 1. Intended for prototype evaluation only, never sole authentication or enforcement. Risks include unseen generators, channel/accent shift, adversarial audio, calibration error, and disparate language performance.

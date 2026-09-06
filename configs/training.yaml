@@ -1,0 +1,39 @@
+model:
+  name: facebook/wav2vec2-base
+  debug_name: hf-internal-testing/tiny-random-wav2vec2
+  num_labels: 2
+  dropout: 0.2
+audio:
+  sample_rate: 16000
+  max_duration_seconds: 5.0
+training:
+  epochs: 5
+  batch_size: 4
+  learning_rate: 0.00001
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  gradient_accumulation_steps: 1
+  seed: 42
+  num_workers: 0
+  use_class_weights: true
+  freeze_feature_extractor: true
+  unfreeze_encoder_layers: 0
+  mixed_precision: true
+  early_stopping_patience: 2
+  selection_metric: f1
+  debug_mode: true
+  max_train_samples: 20
+  max_validation_samples: 10
+  max_test_samples: 10
+evaluation:
+  threshold: 0.5
+  threshold_start: 0.10
+  threshold_stop: 0.90
+  threshold_step: 0.05
+paths:
+  train_csv: data/metadata/train.csv
+  validation_csv: data/metadata/validation.csv
+  test_csv: data/metadata/test.csv
+  checkpoint_dir: models/checkpoints
+  best_model_dir: models/best_model
+  report_dir: reports/phase3

@@ -1,0 +1,5 @@
+feed_version: demo-v1
+known_attack_patterns:
+  - synthetic_high_match
+  - repeated_critical_sessions
+disclaimer: Defensive demo indicators only; a match is not proof of an attack.

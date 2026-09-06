@@ -1,0 +1,17 @@
+import { Cpu, RadioTower, Server, ShieldCheck, Wifi } from 'lucide-react'
+import { Card, StatusBadge } from '../components/common/StatusBadge'
+import { ErrorState } from '../components/common/ErrorState'
+import { PageContainer } from '../components/layout/PageContainer'
+import type { HealthResponse, MonitoringSummary, WsState } from '../types/api'
+
+export function SystemStatus({health,readiness,monitoring,ws,error,onRefresh}:{health:HealthResponse|null;readiness:HealthResponse|null;monitoring:MonitoringSummary|null;ws:WsState;error:string|null;onRefresh:()=>void}){
+  const entries=[['API process',health?.status??'unavailable',Server],['Phase 3 · Synthetic detector',readiness?.components?.phase3_synthetic_detector??'unavailable',Cpu],['Phase 4 · Speaker verifier',readiness?.components?.phase4_speaker_verifier??'unavailable',ShieldCheck],['Phase 5 · Risk engine',readiness?.components?.phase5_risk_engine??'unavailable',RadioTower],['Phase 6 · Realtime pipeline',readiness?.components?.phase6_realtime_pipeline??'unavailable',Wifi]] as const
+  const metrics=monitoring?.metrics
+  return <PageContainer title="System status" eyebrow="Operational telemetry" actions={<button className="btn-secondary" onClick={onRefresh}>Refresh status</button>}>
+    {error&&<div className="mb-4"><ErrorState message={error} onRetry={onRefresh}/></div>}
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{entries.map(([label,status,Icon])=><Card key={label}><div className="flex items-center justify-between"><Icon className="h-5 w-5 text-cyan"/><StatusBadge label={status} tone={status==='ready'||status==='healthy'?'success':'danger'}/></div><h3 className="mt-5 font-semibold text-white">{label}</h3><p className="mt-1 text-xs text-slate-500">Readiness includes active-model hash validation.</p></Card>)}<Card><Wifi className="h-5 w-5 text-cyan"/><h3 className="mt-5 font-semibold text-white">WebSocket</h3><div className="mt-2"><StatusBadge label={ws} tone={ws==='connected'?'success':ws==='failed'?'danger':'neutral'}/></div><p className="mt-2 text-xs text-slate-500">A socket connects only while monitoring a session.</p></Card></div>
+    <h2 className="mb-3 mt-8 text-lg font-semibold text-white">Safe aggregate metrics</h2>
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{[['Active sessions',metrics?.active_sessions??0],['Segments processed',metrics?.segments_processed??0],['P95 latency',`${(metrics?.latency.p95_ms??0).toFixed(0)} ms`],['Error rate',`${((metrics?.error_rate??0)*100).toFixed(1)}%`]].map(([label,value])=><Card key={label}><p className="text-xs uppercase tracking-wide text-slate-500">{label}</p><p className="mt-2 text-2xl font-semibold text-white">{value}</p></Card>)}</div>
+    <div className="mt-4 grid gap-4 lg:grid-cols-2"><Card><h3 className="font-semibold text-white">Operational alerts</h3>{monitoring?.operational_alerts.length?<ul className="mt-3 space-y-2">{monitoring.operational_alerts.map(item=><li key={item.code} className="text-sm text-amber-300">{item.severity}: {item.message}</li>)}</ul>:<p className="mt-2 text-sm text-slate-500">No operational alerts reported.</p>}</Card><Card><h3 className="font-semibold text-white">Loaded model versions</h3><div className="mt-3 space-y-2">{Object.entries(monitoring?.model_versions??{}).map(([name,version])=><p key={name} className="flex justify-between text-sm"><span className="text-slate-400">{name}</span><span>{version}</span></p>)}</div></Card></div>
+  </PageContainer>
+}

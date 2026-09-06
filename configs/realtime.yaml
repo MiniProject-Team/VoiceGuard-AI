@@ -1,0 +1,18 @@
+audio: {sample_rate: 16000, channels: 1, normalize: true}
+stream: {chunk_duration_ms: 200}
+analysis: {window_duration_ms: 3000, hop_duration_ms: 1000}
+vad:
+  enabled: true
+  energy_threshold: 0.005
+  frame_duration_ms: 20
+  minimum_speech_ratio: 0.40
+runtime: {device: auto, warmup: true, failure_escalation_count: 3}
+history: {max_segments: 20}
+alerts: {enabled: true, cooldown_seconds: 30, minimum_level: HIGH}
+output: {jsonl: true, report_dir: reports/phase6}
+logging: {level: INFO}
+dependencies:
+  phase3_config: configs/training.yaml
+  phase3_model: models/best_model
+  phase4_config: configs/speaker_verification.yaml
+  risk_config: configs/risk_engine.yaml

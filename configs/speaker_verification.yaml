@@ -1,0 +1,30 @@
+model:
+  name: speechbrain/spkrec-ecapa-voxceleb
+  version: speechbrain-1.x
+audio:
+  sample_rate: 16000
+  minimum_duration_seconds: 1.5
+  max_duration_seconds: 10.0
+  window_duration_seconds: 5.0
+  window_hop_seconds: 2.5
+  maximum_silence_fraction: 0.95
+  clipping_fraction_limit: 0.05
+verification:
+  threshold: null
+  aggregation: mean
+  normalize_embeddings: true
+enrollment:
+  minimum_reference_files: 2
+evaluation:
+  calculate_eer: true
+  calculate_roc: true
+  calculate_det: true
+  threshold_start: 0.20
+  threshold_stop: 0.95
+  threshold_step: 0.05
+paths:
+  embedding_dir: models/speaker_verification/embeddings
+  report_dir: reports/phase4
+  calibrated_threshold: models/speaker_verification/calibrated_threshold.json
+  trials_csv: data/metadata/speaker_trials.csv
+preprocessing_version: phase4-v1

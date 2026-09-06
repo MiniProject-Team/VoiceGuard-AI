@@ -1,0 +1,5 @@
+version: integration-v1
+mode: local_simulation
+external_network_calls: false
+adapter: integrations.local_enterprise
+label: SIMULATION MODE

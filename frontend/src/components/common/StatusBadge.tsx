@@ -1,0 +1,5 @@
+import type { ReactNode } from 'react'
+import type { RiskLevel } from '../../types/risk'
+import { getRiskBadgeStyle } from '../../utils/risk'
+export function StatusBadge({label,tone='neutral'}:{label:string;tone?:RiskLevel|'success'|'warning'|'danger'|'neutral'}){const style=tone==='success'?'text-emerald-300 bg-emerald-400/10 border-emerald-400/30':tone==='warning'?'text-yellow-300 bg-yellow-400/10 border-yellow-400/30':tone==='danger'?'text-red-300 bg-red-400/10 border-red-400/30':tone==='neutral'?'text-slate-300 bg-slate-400/10 border-slate-400/30':getRiskBadgeStyle(tone);return <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider ${style}`}><span aria-hidden className="h-1.5 w-1.5 rounded-full bg-current"/>{label}</span>}
+export function Card({children,className=''}:{children:ReactNode;className?:string}){return <section className={`rounded-xl border border-line bg-panel p-5 shadow-panel ${className}`}>{children}</section>}

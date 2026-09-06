@@ -1,0 +1,13 @@
+version: privacy-v1
+audio:
+  retain_raw_audio: false
+  temporary_storage: false
+  delete_after_session: true
+metadata:
+  store_session_results: true
+  pseudonymize_ids: true
+embeddings:
+  store_enrollment_embeddings: true
+  encrypt_at_rest_required_in_production: true
+logging:
+  redact_sensitive_fields: true

@@ -1,0 +1,21 @@
+disclaimer: "Compliance-ready controls only; deployment requires organizational and legal review."
+human_oversight:
+  critical_requires_review: true
+  high_requires_step_up: true
+overrides:
+  enabled: true
+  require_reason: true
+  supervisor_required_for_critical: true
+consent:
+  speaker_enrollment_required: true
+  microphone_required: true
+retention:
+  temporary_audio_minutes: 0
+  session_metadata_days: 30
+  security_events_days: 180
+  incident_records_days: 180
+  speaker_enrollment_days: 365
+  audit_logs_days: 365
+model_governance:
+  require_manual_approval: true
+  required_checks: [technical_validation, security_checks, privacy_checks, known_limitations, governance_approval]

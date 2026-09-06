@@ -1,0 +1,15 @@
+incident_creation:
+  critical_auto_create: true
+  persistent_observations: 2
+severity:
+  high_value_threshold_inr: 1000000
+  high_value_transaction: 2
+  privileged_action: 2
+  confirmed_loss: 3
+  system_compromise: 3
+deduplication:
+  window_minutes: 30
+notifications:
+  external_enabled: false
+postmortem:
+  required_for_sev1: true

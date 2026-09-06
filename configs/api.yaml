@@ -1,0 +1,32 @@
+server:
+  host: "0.0.0.0"
+  port: 8000
+  reload: false
+runtime:
+  environment: "development"
+  use_mock_models: false
+  fail_startup_on_model_error: false
+  inference_strategy: "sequential"
+  max_pending_audio_chunks: 20
+websocket:
+  max_connections: 100
+  max_outbound_messages: 50
+audio:
+  sample_rate: 16000
+  channels: 1
+  sample_width_bits: 16
+  max_chunk_size_bytes: 1048576
+  max_file_size_mb: 5
+  max_duration_seconds: 10
+  allowed_formats: ["wav", "flac"]
+security:
+  debug: false
+  authentication_enabled: false
+  cors_enabled: true
+  allowed_origins:
+    - "http://localhost:3000"
+    - "http://localhost:5173"
+  session_creation_per_minute: 60
+  analysis_per_minute: 120
+logging:
+  level: "INFO"

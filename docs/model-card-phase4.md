@@ -1,0 +1,2 @@
+# Phase 4 model card
+SpeechBrain ECAPA-TDNN produces enrollment and incoming-audio embeddings; cosine similarity is compared with the validation threshold .8963. Enrollment uses multiple references. Similarity is not identity proof and may be vulnerable to replay, cloning, noise, and channel mismatch. Embeddings are sensitive biometric-like data and require encryption/access controls. The small demo EER result is not deployment evidence.

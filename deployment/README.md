@@ -1,0 +1,2 @@
+# Local/offline containers
+Prepare images, Python/npm dependencies, and model artifacts while online. Then run `docker compose -f deployment/docker-compose.yml build` and `docker compose -f deployment/docker-compose.yml up`. Backend readiness—not mere process liveness—drives Compose. This environment could not test Docker because Docker is not installed. Models enlarge the backend image. Production should use authenticated registries, non-root users, signed images, secrets, TLS, and independently mounted encrypted model/audit stores.

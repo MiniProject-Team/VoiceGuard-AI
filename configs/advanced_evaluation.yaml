@@ -1,0 +1,16 @@
+evaluation:
+  minimum_group_samples: 20
+  seed: 26104
+  threshold: 0.5
+uncertainty:
+  enabled: true
+  medium_margin: 0.20
+  high_margin: 0.08
+ensemble:
+  enabled: false
+  strategy: mean_probability
+replay: {enabled: true}
+channel_shift: {enabled: true}
+unseen_generators: {enabled: true}
+privacy:
+  prohibited_report_fields: [raw_audio, embeddings, phone_number, secret, full_transcript]

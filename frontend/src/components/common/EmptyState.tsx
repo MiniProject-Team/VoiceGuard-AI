@@ -1,0 +1,2 @@
+import { RadioTower } from 'lucide-react'
+export const EmptyState=({title='No active voice analysis',message='Create a session to begin monitoring.'}:{title?:string;message?:string})=><div className="flex min-h-52 flex-col items-center justify-center rounded-xl border border-dashed border-line bg-panel/40 p-8 text-center"><RadioTower className="mb-4 h-8 w-8 text-slate-600"/><h3 className="font-semibold text-slate-200">{title}</h3><p className="mt-2 max-w-md text-sm text-slate-500">{message}</p></div>

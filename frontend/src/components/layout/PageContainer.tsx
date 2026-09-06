@@ -1,0 +1,2 @@
+import type { ReactNode } from 'react'
+export const PageContainer=({title,eyebrow,actions,children}:{title:string;eyebrow?:string;actions?:ReactNode;children:ReactNode})=><main className="p-5 lg:p-8"><div className="mb-6 flex flex-wrap items-end justify-between gap-4"><div>{eyebrow&&<p className="mb-1 text-xs font-semibold uppercase tracking-[.2em] text-cyan">{eyebrow}</p>}<h2 className="text-2xl font-semibold text-white">{title}</h2></div>{actions}</div>{children}</main>

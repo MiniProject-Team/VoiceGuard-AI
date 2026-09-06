@@ -1,0 +1,11 @@
+version: deployment-v1
+deployment:
+  mode: alert_only
+models:
+  synthetic_detector: active
+  speaker_verifier: active
+runtime:
+  device: auto
+startup:
+  verify_model_hashes: true
+  run_health_checks: true

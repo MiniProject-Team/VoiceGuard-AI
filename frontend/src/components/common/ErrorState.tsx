@@ -1,0 +1,2 @@
+import { CircleAlert } from 'lucide-react'
+export const ErrorState=({message,onRetry}:{message:string;onRetry?:()=>void})=><div className="rounded-xl border border-red-500/30 bg-red-500/5 p-5" role="alert"><div className="flex gap-3"><CircleAlert className="h-5 w-5 shrink-0 text-red-400"/><div><p className="font-semibold text-red-200">Unable to complete request</p><p className="mt-1 text-sm text-slate-400">{message}</p>{onRetry&&<button className="btn-secondary mt-4" onClick={onRetry}>Try again</button>}</div></div></div>

@@ -1,0 +1,45 @@
+version: risk-config-v1
+engine_version: phase5-v1
+risk:
+  score_range: {min: 0, max: 100}
+  thresholds: {low_max: 29, medium_max: 59, high_max: 79, critical_min: 80}
+signals:
+  synthetic_voice: {enabled: true, weight: 0.45}
+  speaker_mismatch: {enabled: true, weight: 0.30}
+  contextual: {enabled: true, weight: 0.25}
+  threat_intelligence: {enabled: false, weight: 0.0}
+speaker_similarity:
+  minimum: -1.0
+  maximum: 1.0
+rules:
+  synthetic_high_threshold: 0.80
+  clone_similarity_threshold: 0.75
+  clone_attack_bonus: 25
+  speaker_mismatch_bonus: 15
+context:
+  transaction: {high_value_threshold: 100000}
+  modifiers:
+    high_value_transaction: 15
+    privileged_action: 15
+    unknown_caller: 10
+    suspicious_caller: 20
+    contact_mismatch: 10
+    historical_fraud_indicator: 20
+    unusual_time: 5
+    new_device: 5
+    location_anomaly: 10
+decisions:
+  low: {decision: ALLOW, recommended_action: "Proceed subject to normal application controls."}
+  medium: {decision: MONITOR, recommended_action: "Continue with increased monitoring and consider independent verification."}
+  high: {decision: STEP_UP_VERIFICATION, recommended_action: "Require independent verification before authorizing a sensitive action."}
+  critical: {decision: BLOCK_OR_ESCALATE, recommended_action: "Do not authorize the sensitive action automatically; require callback, MFA, trusted-app confirmation, or supervisor approval."}
+temporal:
+  enabled: true
+  method: mean
+  window_size: 5
+  ema_alpha: 0.4
+  escalation_threshold: 3
+  high_entry_score: 60
+  high_exit_score: 50
+audit:
+  enabled: true

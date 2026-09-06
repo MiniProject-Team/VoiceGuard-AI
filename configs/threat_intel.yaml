@@ -1,0 +1,14 @@
+enabled: false
+feed:
+  type: local
+  path: configs/local_threat_feed.yaml
+signals:
+  repeated_critical_sessions: {weight: 10}
+  known_attack_pattern: {weight: 15}
+  detector_disagreement: {weight: 8}
+  uncertainty_spike: {weight: 5}
+policy:
+  automatic_changes: false
+privacy:
+  store_raw_identifiers: false
+  store_raw_audio: false

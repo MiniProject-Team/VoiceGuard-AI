@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "model_id": "MODEL_A76E57338E6446F58455F235A4A0DA66",
+      "model_type": "synthetic_detector",
+      "model_name": "facebook/wav2vec2-base",
+      "model_version": "v3-debug",
+      "created_at": "2026-09-04T17:47:59.074718+00:00",
+      "artifact_path": "F:\\hackthon\\voiceguard-ai\\models\\best_model",
+      "file_hash": "a34c10076b04a3eac88da250e660d070413559fc3dd2e6ee4e0796625bbbcb23",
+      "status": "ACTIVE",
+      "dataset_version": "b610cb78bfb3",
+      "validation_metrics": {
+        "epoch": 3,
+        "train_loss": 0.7181172370910645,
+        "validation_loss": 0.6679214239120483,
+        "train_accuracy": 0.5,
+        "train_precision": 0.0,
+        "train_recall": 0.0,
+        "train_f1": 0.0,
+        "train_roc_auc": 0.0,
+        "train_pr_auc": 0.5,
+        "train_specificity": 1.0,
+        "train_false_positive_rate": 0.0,
+        "train_false_negative_rate": 1.0,
+        "train_false_acceptance_rate": 1.0,
+        "train_false_rejection_rate": 0.0,
+        "train_brier_score": 0.2623638712842231,
+        "train_threshold": 0.5,
+        "accuracy": 0.5,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "specificity": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 1.0,
+        "false_acceptance_rate": 1.0,
+        "false_rejection_rate": 0.0,
+        "brier_score": 0.23764351231971137,
+        "threshold": 0.5,
+        "confusion_matrix": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "test_metrics": {
+        "accuracy": 0.3333333333333333,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "specificity": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 1.0,
+        "false_acceptance_rate": 1.0,
+        "false_rejection_rate": 0.0,
+        "brier_score": 0.26089996758342604,
+        "threshold": 0.5,
+        "confusion_matrix": [
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ]
+        ]
+      },
+      "threshold": 0.5,
+      "config_hash": "37644a2b2a71c4d1ed8fc0f2415dedd6156b86d28a1ac66aa8f16d87678665f6"
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-09-04T17:47:59.074718+00:00",
+      "action": "REGISTER",
+      "model_id": "MODEL_A76E57338E6446F58455F235A4A0DA66"
+    },
+    {
+      "at": "2026-09-06T08:57:36.021741+00:00",
+      "action": "PROMOTE",
+      "model_id": "MODEL_A76E57338E6446F58455F235A4A0DA66",
+      "status": "STAGING",
+      "checks": {
+        "tests_pass": true,
+        "metrics_available": true,
+        "config_valid": true,
+        "model_loads": true,
+        "latency_acceptable": true,
+        "no_leakage_warning": true,
+        "artifact_hash": true
+      },
+      "override": false
+    },
+    {
+      "at": "2026-09-06T09:43:36.118491+00:00",
+      "action": "PROMOTE",
+      "model_id": "MODEL_A76E57338E6446F58455F235A4A0DA66",
+      "status": "ACTIVE",
+      "checks": {
+        "security_checks": true,
+        "technical_validation": true,
+        "known_limitations": true,
+        "governance_approval": true,
+        "privacy_checks": true
+      },
+      "override": false
+    }
+  ]
+}

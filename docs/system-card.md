@@ -1,0 +1,2 @@
+# VoiceGuard system card
+Inputs are short WAV/FLAC or PCM16 frames, an optional claimed speaker, and explicit context. Outputs are synthetic likelihood, similarity, a decision-support risk score/level, explanations, alerts, and recommended verification. Failure modes include model unavailability, drift, overload, decoding errors, false positives/negatives, and integration failure. Audio is not retained by default. VoiceGuard does not autonomously authorize sensitive actions; human or independent verification is required.
