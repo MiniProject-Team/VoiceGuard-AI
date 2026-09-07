@@ -8,7 +8,7 @@ router = APIRouter(prefix="/analysis", tags=["analysis"], dependencies=[Depends(
 
 def response_for(session_id: str, result: dict) -> AnalysisResponse:
     alert = result.get("alert_event")
-    return AnalysisResponse(session_id=session_id, segment_id=result["segment_id"], status="completed", analysis=AnalysisSignals(synthetic_probability=result.get("synthetic_probability"), speaker_similarity=result.get("speaker_similarity")), risk=RiskResult(score=result["risk_score"], level=result["risk_level"], decision=result["decision"], recommended_action=result.get("recommended_action")), alert=AlertResponse(**{key: alert[key] for key in ("severity", "alert_type", "message", "recommended_action")}) if alert else None)
+    return AnalysisResponse(session_id=session_id, segment_id=result["segment_id"], status="completed", analysis=AnalysisSignals(synthetic_probability=result.get("synthetic_probability"), speaker_similarity=result.get("speaker_similarity"), synthetic_detection_status=result.get("synthetic_detection_status", "unavailable"), speaker_verification_status=result.get("speaker_verification_status", "unavailable"), speaker_verified=result.get("speaker_verified")), risk=RiskResult(score=result["risk_score"], level=result["risk_level"], decision=result["decision"], recommended_action=result.get("recommended_action"), reasons=result.get("reasons", [])), alert=AlertResponse(**{key: alert[key] for key in ("severity", "alert_type", "message", "recommended_action")}) if alert else None)
 
 @router.post("", response_model=AnalysisResponse, summary="Analyze a short WAV or FLAC segment through Phase 6")
 async def analyze(session_id: str = Form(...), audio: UploadFile = File(...), service: AnalysisService | None = Depends(get_analysis_service)):

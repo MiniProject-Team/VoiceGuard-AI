@@ -60,7 +60,7 @@ export function LiveAnalysis(p: Props) {
         <span className="inline-flex items-center gap-2 rounded-lg border border-cyan/20 bg-cyan/5 px-3 text-xs text-cyan"><Radio className="h-4 w-4" />Audio is processed by VoiceGuard API; it is not stored in this browser.</span>
       </div>
       {p.loading && <LoadingState message="Communicating with VoiceGuard backend…" />}
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"><CallStatusCard session={p.session} /><RiskScoreCard score={latest?.risk_score ?? null} level={latest?.risk_level ?? 'UNKNOWN'} /><SyntheticVoiceCard value={latest?.synthetic_probability ?? null} /><SpeakerVerificationCard value={latest?.speaker_similarity ?? null} /></div>
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"><CallStatusCard session={p.session} /><RiskScoreCard score={latest?.risk_score ?? null} level={latest?.risk_level ?? 'UNKNOWN'} /><SyntheticVoiceCard value={latest?.synthetic_probability ?? null} /><SpeakerVerificationCard value={latest?.speaker_similarity ?? null} status={latest?.speaker_verification_status} verified={latest?.speaker_verified} /></div>
       <div className="mt-4 grid gap-4 xl:grid-cols-2"><AlertPanel alerts={p.alerts} /><AnalysisTimeline events={p.events} /></div>
     </>}
   </PageContainer>

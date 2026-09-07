@@ -42,23 +42,44 @@ def split_dataset(metadata: pd.DataFrame, train: float = .70, validation: float 
     group = group_column if group_column and group_column in result and result[group_column].notna().all() else "file_path"
     assignments: dict[object, str] = {}
     grouped = result.groupby(["label", group], dropna=False).size().reset_index(name="_count")
-    for _, label_groups in grouped.groupby("label"):
-        keys = sorted(label_groups[group].tolist(), key=lambda value: _rank(random_seed, value))
-        n = len(keys)
-        n_train, n_validation, _ = _split_counts(n, (train, validation, test))
+    # When a speaker/group contains both classes, assigning it once per label
+    # would overwrite an earlier choice and leak that speaker across splits.
+    # Allocate mixed-label groups once while greedily balancing class totals.
+    mixed_groups = grouped.groupby(group, dropna=False)["label"].nunique().max() > 1
+    if mixed_groups:
+        # Speaker groups with both labels cannot be independently stratified
+        # without leakage. Allocate whole groups deterministically by the same
+        # requested split fractions; downstream readiness reports the resulting
+        # class counts for review.
+        keys = sorted(grouped[group].unique().tolist(), key=lambda value: _rank(random_seed, value))
+        n_train, n_validation, _ = _split_counts(len(keys), (train, validation, test))
         for index, key in enumerate(keys):
             assignments[key] = "train" if index < n_train else ("validation" if index < n_train + n_validation else "test")
+    else:
+        for _, label_groups in grouped.groupby("label"):
+            keys = sorted(label_groups[group].tolist(), key=lambda value: _rank(random_seed, value))
+            n = len(keys)
+            n_train, n_validation, _ = _split_counts(n, (train, validation, test))
+            for index, key in enumerate(keys):
+                assignments[key] = "train" if index < n_train else ("validation" if index < n_train + n_validation else "test")
     result["split"] = result[group].map(assignments)
     return result
 
 
 def verify_no_leakage(metadata: pd.DataFrame) -> None:
-    """Raise ValueError if a source file or identical file hash crosses splits."""
+    """Raise ValueError if a source, speaker, or identical hash crosses splits."""
     if metadata.empty:
         return
     problems: list[str] = []
-    for column in ("source_file", "file_path"):
-        if column in metadata and metadata.groupby(column, dropna=False)["split"].nunique().max() > 1:
+    for column in ("source_file", "file_path", "speaker_id"):
+        if column not in metadata:
+            continue
+        subset = metadata
+        if column == "speaker_id":
+            subset = metadata[metadata[column].notna() & metadata[column].astype(str).str.strip().ne("")]
+            if subset.empty:
+                continue
+        if subset.groupby(column, dropna=False)["split"].nunique().max() > 1:
             problems.append(f"{column} appears in multiple splits")
             break
     if "source_file_hash" in metadata:

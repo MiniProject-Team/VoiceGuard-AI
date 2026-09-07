@@ -25,7 +25,7 @@ export function Dashboard({ session, results, alerts, events, onLive, onNewSessi
   const latest = results.at(-1)
   const terminal = isTerminalSession(session.status)
   return <PageContainer title={terminal ? 'Last session' : 'Active session'} eyebrow="Command center" actions={terminal ? <button className="btn-primary" onClick={onNewSession}>New session</button> : undefined}>
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"><RiskScoreCard score={latest?.risk_score ?? session.current_risk_score} level={latest?.risk_level ?? session.current_risk_level} /><SyntheticVoiceCard value={latest?.synthetic_probability ?? null} /><SpeakerVerificationCard value={latest?.speaker_similarity ?? null} /><CallStatusCard session={session} /></div>
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"><RiskScoreCard score={latest?.risk_score ?? session.current_risk_score} level={latest?.risk_level ?? session.current_risk_level} /><SyntheticVoiceCard value={latest?.synthetic_probability ?? null} /><SpeakerVerificationCard value={latest?.speaker_similarity ?? null} status={latest?.speaker_verification_status} verified={latest?.speaker_verified} /><CallStatusCard session={session} /></div>
     <div className="mt-4 grid gap-4 xl:grid-cols-[1.65fr_1fr]"><RiskChart results={results} /><AlertPanel alerts={alerts} /></div>
     <div className="mt-4 grid gap-4 xl:grid-cols-[1fr_1.65fr]"><AnalysisTimeline events={events} /><RecommendedAction decision={latest?.decision ?? null} recommendation={latest?.recommended_action} level={latest?.risk_level ?? 'UNKNOWN'} /></div>
   </PageContainer>

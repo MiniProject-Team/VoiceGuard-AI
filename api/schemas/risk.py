@@ -9,6 +9,7 @@ class RiskResult(StrictModel):
     level: RiskLevel
     decision: str
     recommended_action: str | None = None
+    reasons: list[str] = Field(default_factory=list)
 
 class AlertResponse(StrictModel):
     severity: str
@@ -24,3 +25,7 @@ class SegmentResult(StrictModel):
     risk_level: RiskLevel
     decision: str
     recommended_action: str | None = None
+    speaker_verification_status: str = "unavailable"
+    speaker_verified: bool | None = None
+    synthetic_detection_status: str = "unavailable"
+    reasons: list[str] = Field(default_factory=list)

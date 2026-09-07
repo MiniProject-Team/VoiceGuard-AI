@@ -25,7 +25,7 @@ async def session_socket(websocket: WebSocket, session_id: str):
                 if analysis is None: await websocket.send_json({"type":"error", "code":"MODEL_UNAVAILABLE", "message":"Required analysis models are unavailable."}); continue
                 try:
                     result = await analysis.analyze(session_id, analysis.decode_pcm(message["bytes"])); payload = response_for(session_id, result).model_dump(mode="json")
-                    wire = {"type":"analysis_result", "session_id":session_id, "segment_id":payload["segment_id"], **payload["analysis"], "risk_score":payload["risk"]["score"], "risk_level":payload["risk"]["level"], "decision":payload["risk"]["decision"]}
+                    wire = {"type":"analysis_result", "session_id":session_id, "segment_id":payload["segment_id"], **payload["analysis"], "risk_score":payload["risk"]["score"], "risk_level":payload["risk"]["level"], "decision":payload["risk"]["decision"], "recommended_action":payload["risk"].get("recommended_action"), "reasons":payload["risk"].get("reasons", [])}
                     await manager.send_to_session(session_id, wire)
                     if payload["alert"]: await manager.send_to_session(session_id, {"type":"alert", "session_id":session_id, **payload["alert"]})
                 except AudioError as exc: await websocket.send_json({"type":"error", "code":exc.code, "message":str(exc)})

@@ -11,6 +11,7 @@ from transformers import AutoProcessor
 
 from src.models.synthetic_preprocessing import prepare_synthetic_waveform, waveform_statistics
 from src.models.wav2vec_model import Wav2VecDeepfakeClassifier
+from src.models.readiness import reject_debug_or_random_artifact
 from src.models.utils import load_yaml, resolve_path
 from src.speaker.embedding import extract_embedding_from_waveform, load_speaker_model
 from src.speaker.enrollment import load_enrollment
@@ -34,7 +35,8 @@ class SyntheticDetectorAdapter:
 
         info = json.loads(config_path.read_text(encoding="utf-8"))
         training = load_yaml(training_path)
-        trained_model_name = training["model"].get("debug_name") if training["training"].get("debug_mode") else training["model"]["name"]
+        reject_debug_or_random_artifact(training, info)
+        trained_model_name = training["model"]["name"]
         if info.get("base_model") != trained_model_name:
             raise ValueError("Model metadata base_model does not match the training architecture.")
         self.sample_rate = int(info["sample_rate"])
@@ -44,7 +46,7 @@ class SyntheticDetectorAdapter:
         synthetic = [index for index, label in mapping.items() if label in {"FAKE", "SYNTHETIC"}]
         real = [index for index, label in mapping.items() if label == "REAL"]
         num_labels = int(training["model"]["num_labels"])
-        if len(mapping) != num_labels or len(synthetic) != 1 or len(real) != 1:
+        if len(mapping) != num_labels or mapping.get(0) != "REAL" or len(synthetic) != 1 or len(real) != 1:
             raise ValueError("Model label mapping must contain exactly one REAL and one FAKE/SYNTHETIC class.")
         self.synthetic_class, self.real_class = synthetic[0], real[0]
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -110,15 +112,24 @@ class SpeakerVerifierAdapter:
         cfg = load_yaml(config_path); self.cfg = cfg
         self.model = load_speaker_model(cfg["model"]["name"], savedir=root / "models/speaker_verification/model_cache")
         cal = resolve_path(cfg["paths"]["calibrated_threshold"], root)
-        self.threshold = json.loads(cal.read_text())["threshold"] if cal.exists() else cfg["verification"]["threshold"]
+        self.threshold = cfg["verification"]["threshold"]
+        if cal.exists():
+            calibration = json.loads(cal.read_text())
+            minimum = int(cfg["verification"].get("minimum_calibration_trials_per_class", 20))
+            genuine = int(calibration.get("genuine_validation_trials", 0))
+            impostor = int(calibration.get("impostor_validation_trials", 0))
+            if not calibration.get("demo", True) and genuine >= minimum and impostor >= minimum:
+                self.threshold = float(calibration["threshold"])
+            else:
+                LOGGER.warning("Speaker threshold is not usable: calibration needs %d genuine and impostor non-demo validation trials.", minimum)
         self.embedding_dir = resolve_path(cfg["paths"]["embedding_dir"], root)
 
     def __call__(self, speaker_id: str, waveform: np.ndarray) -> dict:
-        if self.threshold is None: return {"similarity": None, "verified": None, "status": "threshold_not_calibrated"}
         try: template, _ = load_enrollment(speaker_id, self.embedding_dir)
         except KeyError: return {"similarity": None, "verified": None, "status": "speaker_not_enrolled"}
         embedding = extract_embedding_from_waveform(waveform, int(self.cfg["audio"]["sample_rate"]), self.model, int(self.cfg["audio"]["sample_rate"]), True)
         similarity = cosine_similarity(template, embedding)
+        if self.threshold is None: return {"similarity": similarity, "verified": None, "status": "threshold_not_calibrated"}
         return {"similarity": similarity, "verified": similarity >= self.threshold, "status": "ok"}
 
 

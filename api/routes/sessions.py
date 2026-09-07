@@ -27,7 +27,8 @@ async def stop_session(session_id: str, service: SessionService = Depends(get_se
 
 @router.get("/{session_id}/results", response_model=SessionResultsResponse)
 async def results(session_id: str, limit: int = Query(50, ge=1, le=100), offset: int = Query(0, ge=0), service: SessionService = Depends(get_session_service)):
-    item, rows = await service.results(session_id, limit, offset); clean = [SegmentResult(**{key: row.get(key) for key in SegmentResult.model_fields}) for row in rows]
+    item, rows = await service.results(session_id, limit, offset)
+    clean = [SegmentResult(**{key: value for key in SegmentResult.model_fields if (value := row.get(key)) is not None}) for row in rows]
     return SessionResultsResponse(session_id=session_id, results=clean, limit=limit, offset=offset, total=len(item.results))
 
 @router.delete("/{session_id}",status_code=204,summary="Delete retained session results")

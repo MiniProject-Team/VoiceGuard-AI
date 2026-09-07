@@ -1,6 +1,5 @@
 model:
   name: facebook/wav2vec2-base
-  debug_name: hf-internal-testing/tiny-random-wav2vec2
   num_labels: 2
   dropout: 0.2
 audio:
@@ -21,10 +20,7 @@ training:
   mixed_precision: true
   early_stopping_patience: 2
   selection_metric: f1
-  debug_mode: true
-  max_train_samples: 20
-  max_validation_samples: 10
-  max_test_samples: 10
+  debug_mode: false
 evaluation:
   threshold: 0.5
   threshold_start: 0.10

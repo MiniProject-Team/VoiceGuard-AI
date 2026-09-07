@@ -8,6 +8,7 @@ from api.routes.analysis import response_for
 from mlops.model_registry import ModelRegistry
 from src.models.synthetic_preprocessing import prepare_synthetic_waveform
 from src.models.utils import load_yaml
+from src.models.readiness import assess_training_frames, reject_debug_or_random_artifact
 from src.realtime.adapters import SyntheticDetectorAdapter
 from src.risk import RiskEngine
 
@@ -58,3 +59,24 @@ def test_api_response_preserves_model_probability_and_risk_consumes_it():
     response = response_for("SESSION_TEST", raw)
     assert response.analysis.synthetic_probability == synthetic_probability
     assert risk["signal_breakdown"]["synthetic_voice"] == 18.9
+
+
+def test_readiness_blocks_tiny_unlabelled_training_split_and_debug_artifacts():
+    import pandas as pd
+    result = assess_training_frames({
+        "train": pd.DataFrame({"label": [0, 1]}),
+        "validation": pd.DataFrame({"label": [0, 1]}),
+        "test": pd.DataFrame({"label": [0, 1]}),
+    })
+    assert not result.ready
+    with __import__("pytest").raises(ValueError, match="Debug"):
+        reject_debug_or_random_artifact({"model": {"name": "facebook/wav2vec2-base"}, "training": {"debug_mode": True}})
+
+
+def test_api_exposes_actual_speaker_verification_status():
+    raw = {"segment_id": 1, "synthetic_probability": 0.1, "synthetic_detection_status": "ok", "speaker_similarity": None,
+           "speaker_verification_status": "speaker_not_enrolled", "speaker_verified": None, "risk_score": 4, "risk_level": "LOW",
+           "decision": "ALLOW", "recommended_action": "Proceed.", "reasons": ["No usable reference result."], "alert_event": None}
+    response = response_for("SESSION_TEST", raw)
+    assert response.analysis.speaker_verification_status == "speaker_not_enrolled"
+    assert response.risk.reasons == ["No usable reference result."]

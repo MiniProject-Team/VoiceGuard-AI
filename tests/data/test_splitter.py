@@ -15,6 +15,14 @@ def test_no_source_overlap_and_speaker_grouping():
     result = split_dataset(data, group_column="speaker_id")
     assert result.groupby("speaker_id")["split"].nunique().max() == 1
 
+
+def test_mixed_label_speaker_is_not_split_across_partitions():
+    data = pd.DataFrame([{"file_path": f"speaker_{speaker}_{label}.wav", "speaker_id": speaker, "label": label}
+                         for speaker in range(20) for label in (0, 1)])
+    result = split_dataset(data, group_column="speaker_id")
+    assert result.groupby("speaker_id")["split"].nunique().max() == 1
+    assert set(result["split"]) == {"train", "validation", "test"}
+
 def test_leakage_checker_rejects_source_and_hash_overlap():
     bad = pd.DataFrame({"source_file": ["a", "a"], "source_file_hash": ["x", "x"],
                         "split": ["train", "test"]})
@@ -24,3 +32,13 @@ def test_leakage_checker_rejects_source_and_hash_overlap():
         assert "leakage" in str(exc).lower()
     else:
         raise AssertionError("Expected leakage detection")
+
+
+def test_leakage_checker_rejects_speaker_overlap():
+    bad = pd.DataFrame({"speaker_id": ["speaker_1", "speaker_1"], "split": ["train", "test"]})
+    try:
+        verify_no_leakage(bad)
+    except ValueError as exc:
+        assert "speaker" in str(exc)
+    else:
+        raise AssertionError("Expected speaker leakage rejection")

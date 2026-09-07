@@ -62,12 +62,14 @@ def run_pipeline(config_path: str | Path, dry_run: bool = False) -> dict[str, An
             hashes.append(None)
     usable["source_file_hash"] = hashes
     split_cfg = cfg["split"]
-    # Hash grouping keeps byte-identical copies together. Complete speaker metadata
-    # takes precedence; duplicate-hash leakage is then caught by the mandatory audit.
-    group_column = ("speaker_id" if "speaker_id" in usable and usable["speaker_id"].notna().all()
-                    else "source_file_hash")
+    # A partially annotated corpus must not force every record to fall back to
+    # file hashes. Preserve a known speaker as a group; use the source hash only
+    # when the source exposes no speaker/group identifier.
+    usable["split_group"] = usable.apply(
+        lambda row: f"speaker:{row['speaker_id']}" if pd.notna(row.get("speaker_id")) and str(row["speaker_id"]).strip()
+        else f"source:{row['source_file_hash']}", axis=1)
     usable = split_dataset(usable, split_cfg["train"], split_cfg["validation"], split_cfg["test"],
-                           split_cfg["random_seed"], group_column)
+                           split_cfg["random_seed"], "split_group")
     verify_no_leakage(usable.rename(columns={"file_path": "source_file"}))
     usable.to_csv(metadata_dir / "file_splits.csv", index=False)
     duplicates = find_duplicates(usable)
